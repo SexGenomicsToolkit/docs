@@ -1,0 +1,4 @@
+.. _sgtr-intro:
+
+Introduction
+============
