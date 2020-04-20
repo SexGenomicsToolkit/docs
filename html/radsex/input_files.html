@@ -86,8 +86,8 @@
 <li class="toctree-l1"><a class="reference internal" href="usage.html">Usage</a></li>
 <li class="toctree-l1 current"><a class="current reference internal" href="#">Input files</a><ul>
 <li class="toctree-l2"><a class="reference internal" href="#reads-files">Reads files</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#population-map">Population map</a></li>
-<li class="toctree-l2"><a class="reference internal" href="#chromosomes-names-file">Chromosomes names file</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#group-info">Group info</a></li>
+<li class="toctree-l2"><a class="reference internal" href="#chromosomes-file">Chromosomes file</a></li>
 </ul>
 </li>
 <li class="toctree-l1"><a class="reference internal" href="output_files.html">Output files</a></li>
@@ -178,16 +178,16 @@
            <div itemprop="articleBody">
             
   <div class="section" id="input-files">
-<h1>Input files<a class="headerlink" href="#input-files" title="Permalink to this headline">¶</a></h1>
+<span id="radsex-input"></span><h1>Input files<a class="headerlink" href="#input-files" title="Permalink to this headline">¶</a></h1>
 <div class="section" id="reads-files">
-<span id="reads-file"></span><h2>Reads files<a class="headerlink" href="#reads-files" title="Permalink to this headline">¶</a></h2>
+<span id="radsex-input-reads"></span><h2>Reads files<a class="headerlink" href="#reads-files" title="Permalink to this headline">¶</a></h2>
 <p>RADSex accepts demultiplexed reads files as input for <code class="docutils literal notranslate"><span class="pre">process</span></code>. RADSex should work with any demultiplexed RAD-sequencing reads files regardless of technology (single / double digest) or enzyme. RADSex cannot support paired-end reads because insert sizes are variable, and thus the second read in a pair does not cover a consistent region of the genome.</p>
 <p>Input files can be in fasta or fastq formats and can be compressed with gzip. RADSex uses file extensions to detect input files and supports the following extensions: <strong>.fa</strong>, <strong>.fa.gz</strong>, <strong>.fq</strong>, <strong>.fq.gz</strong>, <strong>.fasta</strong>, <strong>.fasta.gz</strong>, <strong>.fastq</strong>, <strong>.fastq.gz</strong>, <strong>.fna</strong>, and <strong>.fna.gz</strong>.</p>
-<p>Individual IDs are inferred from file names, <em>e.g.</em> RADSex will attribute the ID <strong>individual_1</strong> to the reads file <strong>individual1.fastq.gz</strong>.</p>
+<p>Individual IDs are inferred from file names, <em>e.g.</em> RADSex will attribute the ID <strong>individual_1</strong> to the reads file <strong>individual_1.fastq.gz</strong>.</p>
 </div>
-<div class="section" id="population-map">
-<span id="id1"></span><h2>Population map<a class="headerlink" href="#population-map" title="Permalink to this headline">¶</a></h2>
-<p>A population map file is a headerless TSV file (<em>i.e.</em> a tabulated file using “\t” - the “tab” character - as a separator) with individual ID in the first column and group in the second column. Groups can be any value and there can be more than two groups. However, most radsex analyses perform pairwise comparisons between groups and will require specifying the groups to compare with the <code class="docutils literal notranslate"><span class="pre">--groups</span></code> parameters (<em>e.g.</em> <code class="docutils literal notranslate"><span class="pre">--groups</span> <span class="pre">males,females</span></code>). If the popmap contains two groups, these groups will be used for pairwise group comparisons in the order they are found in the popmap (this order can be overridden with <code class="docutils literal notranslate"><span class="pre">--groups</span></code>).</p>
+<div class="section" id="group-info">
+<span id="radsex-input-popmap"></span><h2>Group info<a class="headerlink" href="#group-info" title="Permalink to this headline">¶</a></h2>
+<p>A group info file (or population map) is a headerless TSV file (<em>i.e.</em> a tabulated file using “\t” - the “tab” character - as a separator) with individual ID in the first column and group in the second column. Groups can be any value and there can be more than two groups. However, most radsex analyses compare metrics between two groups; if the groups info file contains more than two groups, you will have to specify the groups to compare with the <code class="docutils literal notranslate"><span class="pre">--groups</span></code> parameters (<em>e.g.</em> <code class="docutils literal notranslate"><span class="pre">--groups</span> <span class="pre">males,females</span></code>). If the popmap contains two groups, these groups will be used for group comparisons in their order of occurrence in the groups info file (this order can be overridden with <code class="docutils literal notranslate"><span class="pre">--groups</span></code>).</p>
 <p>An example of population map is given below:</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">individual_1</span>    <span class="n">M</span>
 <span class="n">individual_2</span>    <span class="n">M</span>
@@ -197,11 +197,11 @@
 </pre></div>
 </div>
 <p>Individual IDs can be any value, but it is important that they correspond to the name of the demultiplexed files (without the extension). For instance, the reads file for <em>individual_1</em> should be named <em>individual_1.fastq.gz</em> (or any fasta/fastq format supported by your demultiplexer).</p>
-<p>If you are using Stacks with a barcodes file to demultiplexing the RAD-sequencing reads, just make sure that individual IDs in the barcodes file and in the population map are the same.</p>
+<p>If you are using Stacks with a barcodes file to demultiplexing the RAD-sequencing reads, just make sure that individual IDs in the barcodes file and in the group info file are the same.</p>
 </div>
-<div class="section" id="chromosomes-names-file">
-<span id="chromosomes-names"></span><h2>Chromosomes names file<a class="headerlink" href="#chromosomes-names-file" title="Permalink to this headline">¶</a></h2>
-<p>Genome-wide results from the <code class="docutils literal notranslate"><span class="pre">map</span></code> command are visualized using the <code class="docutils literal notranslate"><span class="pre">plot_genome()</span></code> function of <code class="docutils literal notranslate"><span class="pre">radsex-vis</span></code>. This function automatically detects chromosomes if their name starts with “LG”, “CHR”, or “NC” (case unsensitive). If this is not the case, or if you would like to rename the chromosomes (for instance to shorten NCBI “NC_XXX” IDs), you should provide a chromosomes names file to <code class="docutils literal notranslate"><span class="pre">plot_genome()</span></code>.</p>
+<div class="section" id="chromosomes-file">
+<span id="radsex-input-chromosomes"></span><h2>Chromosomes file<a class="headerlink" href="#chromosomes-file" title="Permalink to this headline">¶</a></h2>
+<p>Genome-wide results from the <code class="docutils literal notranslate"><span class="pre">map</span></code> command are visualized using the <code class="docutils literal notranslate"><span class="pre">radsex_map_circos()</span></code>, <code class="docutils literal notranslate"><span class="pre">radsex_map_manhattan()</span></code>, and <code class="docutils literal notranslate"><span class="pre">radsex_map_region()</span></code> functions of <code class="docutils literal notranslate"><span class="pre">sgtr</span></code>. These function automatically identify contigs as chromosomes if their name starts with “LG”, “CHR”, or “NC” (case unsensitive). If this is not the case, or if you would like to rename the chromosomes (for instance to shorten NCBI “NC_XXX” IDs), you should provide a chromosomes names file to these functions.</p>
 <p>The chromosomes names file is a headerless tabulated file with chromosome ID (from the genome file, <em>e.g.</em> “NC_XXXX”) in the first column and corresponding chromosome name in the second column (<em>e.g.</em> “Chrom1”).</p>
 <p>An example of chromosomes names file is given below for the <a class="reference external" href="https://www.ncbi.nlm.nih.gov/genome/?term=esox%20lucius">Northern Pike</a> genome.</p>
 <div class="highlight-default notranslate"><div class="highlight"><pre><span></span><span class="n">NC_025968</span><span class="o">.</span><span class="mi">3</span>     <span class="n">LG01</span>

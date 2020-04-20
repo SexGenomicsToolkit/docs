@@ -1,12 +1,18 @@
+.. _radsex-output:
+
 Output files
 ============
 
-.. _markers-depths-table-file:
+.. _radsex-output-depth-table:
 
 Markers depth table
 -------------------
 
-A markers depth table is a tabulated file (*i.e.* a tabulated file using "\\t" - the "tab" character - as a separator) with a comment line and a header line. The comment line indicates the total number of markers in the table. A markers depth table can be generated for the entire dataset using the ``process`` command, and for specific subsets of markers using the ``subset`` and ``signif`` commands. 
+A markers depth table is a tabulated file (*i.e.* a tabulated file using "\\t" - the "tab" character - as a separator) with a comment line (starting with '#') and a header line. This file can be generated for the entire dataset using the ``process`` command, or for specific subsets of markers using the ``subset`` and ``signif`` commands. The comment line indicates the total number of markers in the table for a table generated with ``process``; for tables generated with ``signif`` or ``subset``, the comment line has the following format:
+
+::
+
+	#source:<signif/subset>;<subset parameters if applicable>;min_depth:<value of --min-depth>;signif_threshold:<value of --signif-threshold>;bonferroni:<true/false>
 
 The first column in the table contains marker IDs, and the second column contains marker sequences itself. Each additional column contains the depth of the corresponding marker in a given individual. An example of markers depth table is given below for 4 markers and 5 individuals (sequences were shortened for readability):
 
@@ -21,43 +27,42 @@ The first column in the table contains marker IDs, and the second column contain
 
 In this example, the marker "**1**"" corresponding to the sequence "TGCA..GACC" has a depth of **20** in **individual_1** and **4** in **individual_5**.
 
-.. _sex-distribution-file:
+.. _radsex-output-distrib:
 
 Distribution of markers between groups
 --------------------------------------
 
 The distribution of markers between groups is a tabulated file (*i.e.* a tabulated file using "\\t" - the "tab" character - as a separator) with a header line. This distribution is generated using the ``distrib`` command.
 
-The first and second columns indicate the number of individuals from the first and second compared groups in which a marker is present. The third column contains the number of markers present in the corresponding number of individuals from the first and second compared groups. The fourth column contains the p-value of a chi-squared test for association with group. The fifth column indicates whether this p-value is significant after Bonferroni correction. The last column contains the bias between groups, defined as:
+The first and second columns indicate the number of individuals from the first and second compared groups in which a marker is present. The third column contains the number of markers present in the corresponding number of individuals from the first and second compared groups. The fourth column contains the p-value of a chi-squared test for association with group, and the fifth column contains the corrected p-value (*i.e.* the p-value multiplied by the total number of markers in the table). The sixth column indicates whether this p-value is significant after Bonferroni correction. The last column contains the bias between groups, defined as:
 
 *(Number of individuals from the first group / Total number of individuals from the first group) - (Number of individuals from the second group / Total number of individuals from the second group)*
 
-An example of sex distribution table is given below for 3 from a "Males" group and 3 individuals from a "Females" group:
+An example of distribution table is given below for 3 from a "Males" group and 3 individuals from a "Females" group:
 
 ::
 
-	Males    Females    Markers       P     Signif      Bias
-	    0          1          7       1     False     -0.333
-	    0          2          3    0.39     False     -0.666
-	    0          3          1    0.10     False     -1.000
-	    1          0          6       1     False      0.333
-	    1          1          5       1     False      0.000
-	    1          2          1       1     False     -0.333
-	    1          3          2    0.39     False     -0.666
-	    2          0          3    0.39     False      0.666
-	    2          1          8       1     False      0.333
-	    2          2          4       1     False      0.000
-	    2          3          2       1     False     -0.333
-	    3          0          4    0.10     False      1.000
-	    3          1          7    0.39     False      0.666
-	    3          2          6       1     False      0.333
-	    3          3          9       1     False      0.000
+	Males    Females    Markers       P    CorrectedP     Signif      Bias
+	    0          1          7       1             1     False     -0.333
+	    0          2          3    0.39             1     False     -0.666
+	    0          3          1    0.10             1     False     -1.000
+	    1          0          6       1             1     False      0.333
+	    1          1          5       1             1     False      0.000
+	    1          2          1       1             1     False     -0.333
+	    1          3          2    0.39             1     False     -0.666
+	    2          0          3    0.39             1     False      0.666
+	    2          1          8       1             1     False      0.333
+	    2          2          4       1             1     False      0.000
+	    2          3          2       1             1     False     -0.333
+	    3          0          4    0.10             1     False      1.000
+	    3          1          7    0.39             1     False      0.666
+	    3          2          6       1             1     False      0.333
+	    3          3          9       1             1     False      0.000
 
 
 In this example, there are 68 sequences in total, therefore sequences are significantly associated with sex if the p-value of a chi-squared test on the number of males and females is lower than 0.05 / 68 = 0.00074 (Bonferroni correction).
 
-
-.. _fasta-file:
+.. _radsex-output-fasta:
 
 Fasta file
 ----------
@@ -66,7 +71,7 @@ FASTA files are generated by the ``subset`` and ``signif`` commands for a subset
 
 FASTA headers are generated with the following pattern:
 
-``><ID>_<G1>:<G1_C>_<G2>:<G2_C>_p:<P>_mindepth:<D>``
+``><ID>_<G1>:<G1_C>_<G2>:<G2_C>_p:<P>_pcorr:<P_corrected>_mindepth:<D>``
 
 - <ID>: marker ID in the markers depth table
 - <G1>: name of the first compared group
@@ -74,44 +79,43 @@ FASTA headers are generated with the following pattern:
 - <G2>: name of the second compared group
 - <G2_C>: number of individuals from the second compared group in which the marker is present
 - <P>: p-value of association with group
+- <P_corrected>: p-value of association with group corrected with Bonferroni
 - <D>: minimum depth to consider a marker present in an individual
 
 Example:
 
-``>4495827_F:0_M:21_p:1.14577e-07_mindepth:10``
+``>4495827_F:0_M:21_p:1.14577e-07_pcorr:3.64567e-03_mindepth:10``
 
-
-.. _mapping-results-file:
+.. _radsex-output-map:
 
 Alignment results
 -----------------
 
 Alignment results from the ``map`` command are stored as a tabulated file (*i.e.* a tabulated file using "\\t" - the "tab" character - as a separator) with a header line. 
 
-The first and second columns indicate the contig and position on this contig where the markers was aligned, and the third column gives the length of this contig. The fourth column contains the marker ID from the markers depth table. The fifth column contains the bias between groups, as defined in the :ref:`sex-distribution-file` section. The sixth column contains the p-value of a chi-squared test for association with group, and the last column indicates whether this p-value is significant after Bonferroni correction.
+The first and second columns indicate the contig and position on this contig where the markers was aligned, and the third column gives the length of this contig. The fourth column contains the marker ID from the markers depth table. The fifth column contains the bias between groups, as defined in the :ref:`radsex-output-distrib` section. The sixth and seven column contains the p-value and corrected p-value of a chi-squared test for association with group, and the last column indicates whether the corrected p-value is significant.
 
 An example of alignment results is given below:
 
 ::
 
-	Contig    Position       Length     Marker_id       Bias             P      Signif
-	LG03      18366992     36623554       4335174     -0.202         0.073      False
-	LG05      28289991     33792114       4335919          0             1      False
-	LG05      29738230     33792114       4336169      0.149         0.356      False
-	LG22         71119     28810691       4336631      0.159         0.162      False
-	LG15      20142338     30000224       4336732          0             1      False
-	LG02      26668964     31118443       4337320          0             1      False
-	LG03       4463700     36623554       4337383     -0.033         0.973      False
-	LG13      32240045     33409148       4338936     -0.073         0.704      False
-	LG13      19113343     33409148       4340342      0.064         0.479      False
-	LG22      22503191     28810691       4341087     -0.080         0.704      False
-	LG01      17881236     39973033       8678129     -0.736     3.417e-08      True
-	LG01      16475480     39973033       8888270     -0.705     1.462e-07      True
-	LG01      15761951     39973033       8954765     -0.769     8.054e-09      True
-	LG01      16562550     39973033       8990122     -0.736     3.417e-08      True
+	Contig    Position       Length     Marker_id       Bias             P    CorrectedP      Signif
+	LG03      18366992     36623554       4335174     -0.202         0.073             1      False
+	LG05      28289991     33792114       4335919          0             1             1      False
+	LG05      29738230     33792114       4336169      0.149         0.356             1      False
+	LG22         71119     28810691       4336631      0.159         0.162             1      False
+	LG15      20142338     30000224       4336732          0             1             1      False
+	LG02      26668964     31118443       4337320          0             1             1      False
+	LG03       4463700     36623554       4337383     -0.033         0.973             1      False
+	LG13      32240045     33409148       4338936     -0.073         0.704             1      False
+	LG13      19113343     33409148       4340342      0.064         0.479             1      False
+	LG22      22503191     28810691       4341087     -0.080         0.704             1      False
+	LG01      17881236     39973033       8678129     -0.736     1.112e-03             1      True
+	LG01      16475480     39973033       8888270     -0.705     4.773e-03             1      True
+	LG01      15761951     39973033       8954765     -0.769     2.629e-04             1      True
+	LG01      16562550     39973033       8990122     -0.736     1.112e-03             1      True
 
-
-.. _freq-results-file:
+.. _radsex-output-freq:
 
 Distribution of markers in the population
 -----------------------------------------
@@ -136,28 +140,27 @@ An example of distribution table is given below for a population with 10 individ
 	        9      1355
 	        10     1291
 
-
-.. _depth-results-file:
+.. _radsex-output-depth:
 
 Distribution of marker depth in each individual
 -----------------------------------------------
 
 The distribution of marker depth in each individual is a tabulated file (*i.e.* a tabulated file using "\\t" - the "tab" character - as a separator) with a header line. This distribution is generated using the ``depth`` command.
 
-The first and second columns contain the ID and group of each individual. The third and fourth columns indicate the total number of markers in the individual and the number of markers retained to compute these depth statistics (*i.e.* markers present in at least 75% of individuals). The last four columns give the minimum, maximum, median, and average depth of a retained marker in the individual.
+The first and second columns contain the ID and group of each individual. The third column indicates the total number of reads in the individual. The fourth and fifth columns indicate the total number of markers in the individual and the number of markers retained to compute the marker depth statistics (*i.e.* markers present in at least 75% of individuals). The last four columns give the minimum, maximum, median, and average depth of a retained marker in the individual.
 
 An example of depth distribution table is given below for a population with 10 individuals and two groups (M and F):
 
 ::
 
-	Individual    Group    Markers    Retained    Min_depth    Max_depth    Median_depth    Average_depth
-	SRR1519834    M        1084439       72938            0        60604              60               71
-	SRR1519837    M         914664       72938            0        48628              44               53
-	SRR1519830    F        1165312       72938            0        35358              54               72
-	SRR1519853    M         500353       72938            0        27276              28               33
-	SRR1519824    F         498666       72938            0        23912              21               27
-	SRR1519819    F         552423       72938            0        36001              24               32
-	SRR1519846    M         522372       72938            0        30307              31               36
-	SRR1519829    F         944099       72938            0        64723              45               61
-	SRR1519812    F         781177       72938            0        44358              36               46
-	SRR1519862    M        1313850       72938            0        64356              69               81
+	Individual    Group      Reads    Markers    Retained    Min_depth    Max_depth    Median_depth    Average_depth
+	SRR1519834    M        3929067     669084       72938            0        60604              60               71
+	SRR1519837    M        6018684     963531       72938            0        48628              44               53
+	SRR1519830    F        4844480     818700       72938            0        35358              54               72
+	SRR1519853    M        3462244     502028       72938            0        27276              28               33
+	SRR1519824    F        3518348     604081       72938            0        23912              21               27
+	SRR1519819    F        3815684     622309       72938            0        36001              24               32
+	SRR1519846    M        4731003     758814       72938            0        30307              31               36
+	SRR1519829    F        6928277     909117       72938            0        64723              45               61
+	SRR1519812    F        7547724    1165312       72938            0        44358              36               46
+	SRR1519862    M        5948867     945346       72938            0        64356              69               81

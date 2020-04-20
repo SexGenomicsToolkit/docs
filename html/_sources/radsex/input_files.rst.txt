@@ -1,7 +1,9 @@
+.. _radsex-input:
+
 Input files
 ===========
 
-.. _reads-file:
+.. _radsex-input-reads:
 
 Reads files
 -----------
@@ -10,15 +12,14 @@ RADSex accepts demultiplexed reads files as input for ``process``. RADSex should
 
 Input files can be in fasta or fastq formats and can be compressed with gzip. RADSex uses file extensions to detect input files and supports the following extensions: **.fa**, **.fa.gz**, **.fq**, **.fq.gz**, **.fasta**, **.fasta.gz**, **.fastq**, **.fastq.gz**, **.fna**, and **.fna.gz**.
 
-Individual IDs are inferred from file names, *e.g.* RADSex will attribute the ID **individual_1** to the reads file **individual1.fastq.gz**.
+Individual IDs are inferred from file names, *e.g.* RADSex will attribute the ID **individual_1** to the reads file **individual_1.fastq.gz**.
 
+.. _radsex-input-popmap:
 
-.. _population-map:
+Group info
+----------
 
-Population map
---------------
-
-A population map file is a headerless TSV file (*i.e.* a tabulated file using "\\t" - the "tab" character - as a separator) with individual ID in the first column and group in the second column. Groups can be any value and there can be more than two groups. However, most radsex analyses perform pairwise comparisons between groups and will require specifying the groups to compare with the ``--groups`` parameters (*e.g.* ``--groups males,females``). If the popmap contains two groups, these groups will be used for pairwise group comparisons in the order they are found in the popmap (this order can be overridden with ``--groups``).
+A group info file (or population map) is a headerless TSV file (*i.e.* a tabulated file using "\\t" - the "tab" character - as a separator) with individual ID in the first column and group in the second column. Groups can be any value and there can be more than two groups. However, most radsex analyses compare metrics between two groups; if the groups info file contains more than two groups, you will have to specify the groups to compare with the ``--groups`` parameters (*e.g.* ``--groups males,females``). If the popmap contains two groups, these groups will be used for group comparisons in their order of occurrence in the groups info file (this order can be overridden with ``--groups``).
 
 An example of population map is given below:
 
@@ -32,15 +33,14 @@ An example of population map is given below:
 
 Individual IDs can be any value, but it is important that they correspond to the name of the demultiplexed files (without the extension). For instance, the reads file for *individual_1* should be named *individual_1.fastq.gz* (or any fasta/fastq format supported by your demultiplexer).
 
-If you are using Stacks with a barcodes file to demultiplexing the RAD-sequencing reads, just make sure that individual IDs in the barcodes file and in the population map are the same.
+If you are using Stacks with a barcodes file to demultiplexing the RAD-sequencing reads, just make sure that individual IDs in the barcodes file and in the group info file are the same.
 
+.. _radsex-input-chromosomes:
 
-.. _chromosomes-names:
+Chromosomes file
+----------------
 
-Chromosomes names file
-----------------------
-
-Genome-wide results from the ``map`` command are visualized using the ``plot_genome()`` function of ``radsex-vis``. This function automatically detects chromosomes if their name starts with "LG", "CHR", or "NC" (case unsensitive). If this is not the case, or if you would like to rename the chromosomes (for instance to shorten NCBI "NC_XXX" IDs), you should provide a chromosomes names file to ``plot_genome()``.
+Genome-wide results from the ``map`` command are visualized using the ``radsex_map_circos()``, ``radsex_map_manhattan()``, and ``radsex_map_region()`` functions of ``sgtr``. These function automatically identify contigs as chromosomes if their name starts with "LG", "CHR", or "NC" (case unsensitive). If this is not the case, or if you would like to rename the chromosomes (for instance to shorten NCBI "NC_XXX" IDs), you should provide a chromosomes names file to these functions.
 
 The chromosomes names file is a headerless tabulated file with chromosome ID (from the genome file, *e.g.* "NC_XXXX") in the first column and corresponding chromosome name in the second column (*e.g.* "Chrom1").
 

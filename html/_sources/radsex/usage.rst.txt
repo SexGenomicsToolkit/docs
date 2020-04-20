@@ -1,4 +1,4 @@
-.. _full-usage:
+.. _radsex-usage:
 
 Usage
 =====
@@ -25,7 +25,7 @@ subset   Extract a subset of markers from a marker depths table
 ------------------------------------------------------------------------------------------------------------
 
 
-.. _process-usage:
+.. _radsex-usage-process:
 
 process
 -------
@@ -52,7 +52,7 @@ Option                  Description
 
 **Output**
 
-A :ref:`markers-depths-table-file`:
+A :ref:`radsex-output-depth-table`:
 
 ::
 
@@ -70,12 +70,12 @@ A :ref:`markers-depths-table-file`:
 ------------------------------------------------------------------------------------------------------------
 
 
-.. _distrib-usage:
+.. _radsex-usage-distrib:
 
 distrib
 -------
 
-Generate a table containing the distribution of markers between two groups of individuals defined in a :ref:`population-map`.
+Generate a table containing the distribution of markers between two groups of individuals defined in a :ref:`radsex-input-popmap`.
 
 **Command**
 
@@ -99,37 +99,37 @@ Option                         Description
 
 **Output**
 
-A :ref:`sex-distribution-file`:
+A :ref:`radsex-output-distrib`:
 
 ::
 
-    Males    Females    Markers       P     Signif      Bias
-        0          1          7       1     False     -0.333
-        0          2          3    0.39     False     -0.666
-        0          3          1    0.10     False     -1.000
-        1          0          6       1     False      0.333
-        1          1          5       1     False      0.000
-        1          2          1       1     False     -0.333
-        1          3          2    0.39     False     -0.666
-        2          0          3    0.39     False      0.666
-        2          1          8       1     False      0.333
-        2          2          4       1     False      0.000
-        2          3          2       1     False     -0.333
-        3          0          4    0.10     False      1.000
-        3          1          7    0.39     False      0.666
-        3          2          6       1     False      0.333
-        3          3          9       1     False      0.000
+    Males    Females    Markers       P    CorrectedP     Signif      Bias
+        0          1          7       1             1     False     -0.333
+        0          2          3    0.39             1     False     -0.666
+        0          3          1    0.10             1     False     -1.000
+        1          0          6       1             1     False      0.333
+        1          1          5       1             1     False      0.000
+        1          2          1       1             1     False     -0.333
+        1          3          2    0.39             1     False     -0.666
+        2          0          3    0.39             1     False      0.666
+        2          1          8       1             1     False      0.333
+        2          2          4       1             1     False      0.000
+        2          3          2       1             1     False     -0.333
+        3          0          4    0.10             1     False      1.000
+        3          1          7    0.39             1     False      0.666
+        3          2          6       1             1     False      0.333
+        3          3          9       1             1     False      0.000
 
 
 ------------------------------------------------------------------------------------------------------------
 
 
-.. _signif-usage:
+.. _radsex-usage-signif:
 
 signif
 ------
 
-Find markers significantly associated with groups of individuals defined in a :ref:`population-map`.
+Find markers significantly associated with groups of individuals defined in a :ref:`radsex-input-popmap`.
 
 **Command**
 
@@ -154,7 +154,7 @@ Option                         Description
 
 **Output**
 
-:ref:`markers-depths-table-file`:
+:ref:`radsex-output-depth-table`:
 
 ::
 
@@ -165,26 +165,26 @@ Option                         Description
      2   TGCA..ATCG              2               1               5              16               0
      3   TGCA..CCGA             14              29              23               2              19
 
-:ref:`fasta-file`:
+:ref:`radsex-output-fasta`:
 
 ::
 
-    >4495827_F:0_M:21_p:1.14577e-07_mindepth:10
+    >4495827_F:0_M:21_p:1.14577e-07_pcorr:2.64584e-03_mindepth:10
     TGCAG.....GGATGTGTATCCATA
-    >4609394_F:0_M:23_p:1.08057e-08_mindepth:10
+    >4609394_F:0_M:23_p:1.08057e-08_pcorr:3.13548e-04_mindepth:10
     TGCAG.....GGTTCCATCCCAAAT
-    >4661391_F:0_M:26_p:1.92225e-10_mindepth:10
+    >4661391_F:0_M:26_p:1.92225e-10_pcorr:8.95316e-06_mindepth:10
     TGCAG.....GTAGAGTGACCAGTT
-    >5182569_F:0_M:22_p:3.62243e-08_mindepth:10
+    >5182569_F:0_M:22_p:3.62243e-08_pcorr:6.43275e-04_mindepth:10
     TGCAG.....ACATGCTGTAAATGC
-    >5625957_F:0_M:25_p:7.91633e-10_mindepth:10
+    >5625957_F:0_M:25_p:7.91633e-10_pcorr:1.16345e-06_mindepth:10
     TGCAG.....CTGGAGAAGAGTAGG
 
 
 ------------------------------------------------------------------------------------------------------------
 
 
-.. _map-usage:
+.. _radsex-usage-map:
 
 map
 ---
@@ -217,31 +217,31 @@ Option                         Description
 
 **Output**
 
-A :ref:`mapping-results-file`:
+A :ref:`radsex-output-map`:
 
 ::
 
-    Contig    Position       Length     Marker_id       Bias             P      Signif
-    LG03      18366992     36623554       4335174     -0.202         0.073      False
-    LG05      28289991     33792114       4335919          0             1      False
-    LG05      29738230     33792114       4336169      0.149         0.356      False
-    LG22         71119     28810691       4336631      0.159         0.162      False
-    LG15      20142338     30000224       4336732          0             1      False
-    LG02      26668964     31118443       4337320          0             1      False
-    LG03       4463700     36623554       4337383     -0.033         0.973      False
-    LG13      32240045     33409148       4338936     -0.073         0.704      False
-    LG13      19113343     33409148       4340342      0.064         0.479      False
-    LG22      22503191     28810691       4341087     -0.080         0.704      False
-    LG01      17881236     39973033       8678129     -0.736     3.417e-08      True
-    LG01      16475480     39973033       8888270     -0.705     1.462e-07      True
-    LG01      15761951     39973033       8954765     -0.769     8.054e-09      True
-    LG01      16562550     39973033       8990122     -0.736     3.417e-08      True
+    Contig    Position       Length     Marker_id       Bias             P    CorrectedP      Signif
+    LG03      18366992     36623554       4335174     -0.202         0.073             1      False
+    LG05      28289991     33792114       4335919          0             1             1      False
+    LG05      29738230     33792114       4336169      0.149         0.356             1      False
+    LG22         71119     28810691       4336631      0.159         0.162             1      False
+    LG15      20142338     30000224       4336732          0             1             1      False
+    LG02      26668964     31118443       4337320          0             1             1      False
+    LG03       4463700     36623554       4337383     -0.033         0.973             1      False
+    LG13      32240045     33409148       4338936     -0.073         0.704             1      False
+    LG13      19113343     33409148       4340342      0.064         0.479             1      False
+    LG22      22503191     28810691       4341087     -0.080         0.704             1      False
+    LG01      17881236     39973033       8678129     -0.736     1.112e-03             1      True
+    LG01      16475480     39973033       8888270     -0.705     4.773e-03             1      True
+    LG01      15761951     39973033       8954765     -0.769     2.629e-04             1      True
+    LG01      16562550     39973033       8990122     -0.736     1.112e-03             1      True
 
 
 ------------------------------------------------------------------------------------------------------------
 
 
-.. _subset-usage:
+.. _radsex-usage-subset:
 
 subset
 ------
@@ -252,7 +252,7 @@ Extract a subset of markers from a markers depth table based on presence in indi
 
 ::
 
-    radsex distrib --markers-table markers_table_path --output-file output_file_path --popmap popmap_path [ --min-depth min_depth --groups group1,group2 --signif-threshold signif_threshold --disable-correction --min-group1 min_group1 --min-group2 min_group2 --max-group1 max_group1 --max-group2 max_group2 --min-individuals min_individuals --max-individuals max_individuals --output-fasta ]
+    radsex subset --markers-table markers_table_path --output-file output_file_path --popmap popmap_path [ --min-depth min_depth --groups group1,group2 --signif-threshold signif_threshold --disable-correction --min-group1 min_group1 --min-group2 min_group2 --max-group1 max_group1 --max-group2 max_group2 --min-individuals min_individuals --max-individuals max_individuals --output-fasta ]
 
 **Options**
 
@@ -277,7 +277,7 @@ Option                         Description
 
 **Output**
 
-:ref:`markers-depths-table-file`:
+:ref:`radsex-output-depth-table`:
 
 ::
 
@@ -288,26 +288,26 @@ Option                         Description
      2   TGCA..ATCG              2               1               5              16               0
      3   TGCA..CCGA             14              29              23               2              19
 
-:ref:`fasta-file`:
+:ref:`radsex-output-fasta`:
 
 ::
 
-    >4495827_F:0_M:21_p:1.14577e-07_mindepth:10
+    >4495827_F:0_M:21_p:1.14577e-07_pcorr:2.64584e-03_mindepth:10
     TGCAG.....GGATGTGTATCCATA
-    >4609394_F:0_M:23_p:1.08057e-08_mindepth:10
+    >4609394_F:0_M:23_p:1.08057e-08_pcorr:3.13548e-04_mindepth:10
     TGCAG.....GGTTCCATCCCAAAT
-    >4661391_F:0_M:26_p:1.92225e-10_mindepth:10
+    >4661391_F:0_M:26_p:1.92225e-10_pcorr:8.95316e-06_mindepth:10
     TGCAG.....GTAGAGTGACCAGTT
-    >5182569_F:0_M:22_p:3.62243e-08_mindepth:10
+    >5182569_F:0_M:22_p:3.62243e-08_pcorr:6.43275e-04_mindepth:10
     TGCAG.....ACATGCTGTAAATGC
-    >5625957_F:0_M:25_p:7.91633e-10_mindepth:10
+    >5625957_F:0_M:25_p:7.91633e-10_pcorr:1.16345e-06_mindepth:10
     TGCAG.....CTGGAGAAGAGTAGG
 
 
 ------------------------------------------------------------------------------------------------------------
 
 
-.. _freq-usage:
+.. _radsex-usage-freq:
 
 freq
 ----
@@ -332,7 +332,7 @@ Option                         Description
 
 **Output**
 
-A :ref:`freq-results-file`:
+A :ref:`radsex-output-freq`:
 
 ::
 
@@ -352,12 +352,12 @@ A :ref:`freq-results-file`:
 ------------------------------------------------------------------------------------------------------------
 
 
-.. _depth-usage:
+.. _radsex-usage-depth:
 
 depth
 -----
 
-Compute the minimum, maximum, median, and average marker depth in each individual from the dataset.
+Compute the number of reads and markers as well as the minimum, maximum, median, and average marker depth in each individual from the dataset.
 
 **Command**
 
@@ -378,19 +378,19 @@ Option                         Description
 
 **Output**
 
-A :ref:`depth-results-file`:
+A :ref:`radsex-output-depth`:
 
 ::
 
-    Individual    Group    Markers    Retained    Min_depth    Max_depth    Median_depth    Average_depth
-    SRR1519834    M        1084439       72938            0        60604              60               71
-    SRR1519837    M         914664       72938            0        48628              44               53
-    SRR1519830    F        1165312       72938            0        35358              54               72
-    SRR1519853    M         500353       72938            0        27276              28               33
-    SRR1519824    F         498666       72938            0        23912              21               27
-    SRR1519819    F         552423       72938            0        36001              24               32
-    SRR1519846    M         522372       72938            0        30307              31               36
-    SRR1519829    F         944099       72938            0        64723              45               61
-    SRR1519812    F         781177       72938            0        44358              36               46
-    SRR1519862    M        1313850       72938            0        64356              69               81
+    Individual    Group      Reads    Markers    Retained    Min_depth    Max_depth    Median_depth    Average_depth
+    SRR1519834    M        3929067     669084       72938            0        60604              60               71
+    SRR1519837    M        6018684     963531       72938            0        48628              44               53
+    SRR1519830    F        4844480     818700       72938            0        35358              54               72
+    SRR1519853    M        3462244     502028       72938            0        27276              28               33
+    SRR1519824    F        3518348     604081       72938            0        23912              21               27
+    SRR1519819    F        3815684     622309       72938            0        36001              24               32
+    SRR1519846    M        4731003     758814       72938            0        30307              31               36
+    SRR1519829    F        6928277     909117       72938            0        64723              45               61
+    SRR1519812    F        7547724    1165312       72938            0        44358              36               46
+    SRR1519862    M        5948867     945346       72938            0        64356              69               81
 
